@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <form method="get">
+                <div class="field">
+                    <label class="label">Search</label>
+                    <div class="control has-icons-left">
+                    <span class="icon">
+                      <i class="fas fa-search"></i>
+                    </span>
+                        <input class="input" type="text" name="s" value="{% if s %}{{ s }}{% endif %}" placeholder="Search Researcher, Project, Publication etc.">
+                    </div>
+                    <input type="hidden" name="f" value="{{ f }}">
+                </div>
+                <!--<center>
+                    <div class="field">
+                        <input class="button" type="submit" value="Search">
+                    </div>
+                </center>-->
+            </form>
+        </div>
+    </section>
+    {% if result %}
+    <div class="section">
+        <div class="container">
+            <div class="tabs">
+            <ul>
+                <li {% if f=='researchers' %}class="is-active"{% endif %}><a href="{{ url_for('homepage')+'?f=researchers&s='+s}}">Researchers</a></li>
+                <li {% if f=='projects' %}class="is-active"{% endif %}><a href="{{ url_for('homepage')+'?f=projects&s='+s}}">Projects</a></li>
+                <li {% if f=='publications' %}class="is-active"{% endif %}><a href="{{ url_for('homepage')+'?f=publications&s='+s}}">Publications</a></li>
+                <li {% if f=='job' %}class="is-active"{% endif %}><a href="{{ url_for('homepage') }}">Jobs</a></li>
+            </ul>
+            </div>
+            <div class="content">
+                {% for r in result %}
+                    <article class="media">
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <a href="/profile/{{r.id}}">
+                                        <strong>{{ r.name_en.upper() }}</strong>
+                                    </a>
+                                    <small>({{ r.name_th }})</small>
+                                    {% if r.keywords %}
+                                        <br>
+                                        {{ r.keywords }}
+                                    {% endif %}
+                                    <br>
+                                    <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.-->
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
